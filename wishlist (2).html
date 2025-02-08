@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Виш-лист</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .gift { display: flex; align-items: center; justify-content: space-between; margin: 10px auto; padding: 10px; border: 1px solid #ccc; width: 60%; }
+        .gift img { width: 100px; height: auto; }
+        .selected { background-color: #d3ffd3; }
+        button { padding: 5px 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Мой виш-лист</h1>
+    <div id="wishlist"></div>
+
+    <script>
+        const gifts = [
+            { id: 1, name: "Kiko 27 Pearly Lavender", image: "kiko27.jpg", taken: false },
+            { id: 2, name: "Kiko 33 Pearly Watermelon", image: "kiko33.jpg", taken: false },
+            { id: 3, name: "Коврик для йоги фиолетовый", image: "yoga_mat.jpg", taken: false },
+            { id: 4, name: "Dior Backstage Eye Palette", image: "dior_palette.jpg", taken: false },
+            { id: 5, name: "KLUBBSPORRE Poduszka ergonomiczna", image: "klubbsporre.jpg", taken: false }
+        ];
+
+        function loadGifts() {
+            const wishlist = document.getElementById("wishlist");
+            wishlist.innerHTML = "";
+            gifts.forEach(gift => {
+                const div = document.createElement("div");
+                div.className = "gift" + (gift.taken ? " selected" : "");
+                div.innerHTML = `
+                    <img src="${gift.image}" alt="${gift.name}">
+                    <span>${gift.name}</span>
+                    <button onclick="toggleGift(${gift.id})" ${gift.taken ? "disabled" : ""}>
+                        ${gift.taken ? "Выбрано" : "Выбрать"}
+                    </button>
+                `;
+                wishlist.appendChild(div);
+            });
+        }
+
+        function toggleGift(id) {
+            const gift = gifts.find(g => g.id === id);
+            if (gift) {
+                gift.taken = true;
+                loadGifts();
+            }
+        }
+
+        loadGifts();
+    </script>
+</body>
+</html>
